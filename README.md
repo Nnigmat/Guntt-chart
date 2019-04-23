@@ -2,9 +2,9 @@
 
 ## Instalation
 
-```pip3 install -r requirements # Probably you will need to use just pip```
+```pip3 install -r requirements```
 
 ## Run project
 
-```export FLASK_APP=app.py```
-```flask run```
+```export FLASK_APP=app.py
+flask run```
