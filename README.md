@@ -6,5 +6,6 @@
 
 ## Run project
 
-```export FLASK_APP=app.py
-flask run```
+```export FLASK_APP=app.py```
+
+```flask run```
