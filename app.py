@@ -20,5 +20,15 @@ def submit():
 
 @app.route('/chart', methods=['GET'])
 def chart():
+    '''
+    ' Return gantt chart template with javascript
+    '''
     return render_template('chart.html')
 
+@app.route('/data', methods=['GET'])
+def give_data():
+    '''
+    ' Should send the json to the user, with data specified as here for gantt chart creation.
+    ' https://stackoverflow.com/questions/41259441/how-to-draw-gantt-chart-using-chart-js-or-other-libraries
+    '''
+    pass
