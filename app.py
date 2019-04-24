@@ -3,8 +3,10 @@ from forms import EventForm
 from create_data import Data
 import psycopg2
 import datetime
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'any string works here'
 conn = psycopg2.connect(dbname='testdb', user='postgres', password='postgres', host='localhost')
 cur = conn.cursor()
@@ -28,7 +30,7 @@ def insert(task_name, assigned_to, start_date, end_date):
     "task_name": "{task_name}",
     "assigned_to": "{assigned_to}",
     "start_date": "{start_date.strftime("%d.%m.%Y")}",
-    "end_date": "{end_date.strftime("%d.%m.%Y")}", 
+    "end_date": "{end_date.strftime("%d.%m.%Y")}",
     "duration":  "{duration.days}"
     }}');''')
 
@@ -70,4 +72,3 @@ def give_data():
 if __name__ == '__main__':
     for assigned_to, event, start, end  in Data().get_data(n=100):
         insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
-
