@@ -5,6 +5,7 @@ from datetime import datetime
 
 class EventForm(FlaskForm):
     event = StringField('event', validators=[DataRequired()])
+    assigned_to = StringField('assigned to', validators=[DataRequired()])
     start = DateField('starting date', format='%d.%m.%Y', validators=[DataRequired()])
     end = DateField('ending date', format='%d.%m.%Y', validators=[DataRequired()])
 
