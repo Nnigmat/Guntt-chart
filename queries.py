@@ -27,7 +27,8 @@ def query4(cur, s_date, e_date, k):
     s_date = s_date.strftime('%d.%m%Y')
     e_date = e_date.strftime('%d.%m%Y')
     cur.execute(
-        f'''SELECT * FROM event ORDER BY absolute (to_timestamp('{s_date}', 'DD.MM.YYYY') - to_timestamp((data->>'start_date'), 'DD.MM.YYYY')) + absolute (to_timestamp('{e_date}', 'DD.MM.YYYY') - to_timestamp((data->>'end_date'), 'DD.MM.YYYY'))''')
+        f'''SELECT * FROM event ORDER BY abs(to_timestamp('{s_date}', 'DD.MM.YYYY') - to_timestamp((data->>'start_date'), 'DD.MM.YYYY')) + absolute (to_timestamp('{e_date}', 'DD.MM.YYYY') - to_timestamp((data->>'end_date'), 'DD.MM.YYYY'))''')
+    return cur.fetchall()
 
 
 # distance function
