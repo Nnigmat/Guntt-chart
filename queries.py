@@ -11,7 +11,7 @@ def query2(cur):
 
 # Select event with date between start_date and end_date
 def query3(cur, date):
-    cur.execute(f'''SELECT * FROM event WHERE '{date}' between ((data->>'start_date')::DATE, 'yyyy.mm.dd') AND ((data->>'end_date')::DATE, 'yyyy.mm.dd') ''')
+    cur.execute(f'''SELECT * FROM event WHERE {date} between TO_DATE((data->>'start_date'), 'DD.MM.YYYY') AND TO_DATE((data->>'start_date'), 'DD.MM.YYYY') ''')
     return cur.fetchall()
 
 
