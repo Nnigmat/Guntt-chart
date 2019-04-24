@@ -60,6 +60,6 @@ def give_data():
 for assigned_to, event, start, end  in Data().get_data(n=1000):
     insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
 
-print(query3(cur, '5.05.2019'))
+print(query3(cur, datetime.datetime(day=5, month=7, year=2019)))
 
 
