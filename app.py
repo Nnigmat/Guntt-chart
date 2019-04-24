@@ -12,7 +12,7 @@ cur = conn.cursor()
 
 #cur.execute('DROP TABLE IF EXISTS event;')
 cur.execute(f'''CREATE TABLE IF NOT EXISTS event (
-    data JSON,
+    data JSONB,
     CONSTRAINT validate_task_name CHECK (length(data->>'task_name') > 0 AND (data->>'task_name') IS NOT NULL),
     CONSTRAINT validate_assigned_to CHECK (length(data->>'assigned_to') > 0 AND (data->>'assigned_to') IS NOT NULL),
     CONSTRAINT validate_start_date CHECK (length(data->>'start_date') > 0 AND (data->>'start_date') IS NOT NULL),
@@ -60,6 +60,8 @@ def give_data():
 for assigned_to, event, start, end  in Data().get_data(n=1000):
     insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
 
-print(query3(cur, datetime.datetime(day=5, month=7, year=2019)))
+#cur.execute('''SELECT * from event where to_timestamp(data->>'start_date', 'DD.MM.YYYY') > to_timestamp('2019-06-01', 'YYYY-MM-DD')''')
+#print(cur.fetchall())
+print(query3(cur, datetime.date(day=5, month=7, year=2019)))
 
 
