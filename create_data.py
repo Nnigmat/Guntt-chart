@@ -1,4 +1,3 @@
-import names
 from os.path import abspath, join, dirname
 import random
 from datetime import datetime as dt
