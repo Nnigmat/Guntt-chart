@@ -5,6 +5,7 @@ from queries import *
 import psycopg2
 import datetime
 from flask_bootstrap import Bootstrap
+from flask import jsonify
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
@@ -50,19 +51,22 @@ def chart():
     '''
     return render_template('chart.html')
 
-@app.route('/data', methods=['GET'])
+@app.route('/data/', methods=['GET'])
 def give_data():
-    '''
-    ' Should send the json to the user, with data specified as here for gantt chart creation.
-    ' https://stackoverflow.com/questions/41259441/how-to-draw-gantt-chart-using-chart-js-or-other-libraries
-    '''
-    pass
+    q = request.args.get('query')
+    print(q)
+    cur.execute(q)
+    d = cur.fetchall()
+    data = {
+    'has':True,
+    'data':d}
+    return jsonify(data)
+
 
 # Generate initial data
-for assigned_to, event, start, end  in Data().get_data(n=1000):
+for assigned_to, event, start, end  in Data().get_data(n=1):
     insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
 
 #cur.execute('''SELECT * from event where to_timestamp(data->>'start_date', 'DD.MM.YYYY') > to_timestamp('2019-06-01', 'YYYY-MM-DD')''')
 #print(cur.fetchall())
 print(query3(cur, datetime.date(day=5, month=7, year=2019)))
-
