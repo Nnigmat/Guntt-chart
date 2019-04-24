@@ -40,7 +40,7 @@ class Data:
     def __init__(self):
         self.__names = Names()
 
-    def get_data(self, n=10, delta=18000, start_date=1556119825, finish_date=1587655825):
+    def get_data(self, n=10, delta=2000000, start_date=1556119825, finish_date=1587655825):
         data = []
         for i in range(n):
             date1 = random.randint(start_date, finish_date)
