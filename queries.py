@@ -22,7 +22,7 @@ def query3(cur, date):
     return cur.fetchall()
 
 
-# geospatial shiit
+# geospatial shiit, where the distance is the manhattan distance between points with coordinates {start_date, end_date}
 def query4(cur, s_date, e_date, k):
     #s_date = s_date.strftime('%d.%m.%Y')
     #e_date = e_date.strftime('%d.%m.%Y')
@@ -41,14 +41,10 @@ def query4(cur, s_date, e_date, k):
         ''')
     return cur.fetchall()
 
-# geospatial shiit
-def query5(cur, s_date, e_date, k):
-    #s_date = s_date.strftime('%d.%m.%Y')
-    #e_date = e_date.strftime('%d.%m.%Y')
-    cur.execute(
-        f'''SELECT * FROM event 
-        LIMIT 10
-        ''')
+# aggregate function with count
+def query5(cur, s_date, e_date):
+    cur.execute(f'''SELECT COUNT(*) FROM event WHERE (data->>'start_date') = '{s_date}' AND (data->>'end_date') = '{e_date}' ''')
+    return cur.fetchall()
     return cur.fetchone()
 
 
