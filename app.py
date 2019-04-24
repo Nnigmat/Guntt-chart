@@ -69,4 +69,5 @@ for assigned_to, event, start, end  in Data().get_data(n=1):
 
 #cur.execute('''SELECT * from event where to_timestamp(data->>'start_date', 'DD.MM.YYYY') > to_timestamp('2019-06-01', 'YYYY-MM-DD')''')
 #print(cur.fetchall())
-print(query3(cur, datetime.date(day=5, month=7, year=2019)))
+#print(query4(cur, datetime.date(day=5, month=7, year=2019), datetime.date(day=5, month=7, year=2019), k=3))
+#print(query5(cur, datetime.date(day=5, month=7, year=2019), datetime.date(day=5, month=7, year=2019), k=3))
