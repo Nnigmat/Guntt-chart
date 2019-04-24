@@ -4,8 +4,10 @@ from create_data import Data
 from queries import *
 import psycopg2
 import datetime
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'any string works here'
 conn = psycopg2.connect(dbname='testdb', user='postgres', password='postgres', host='localhost')
 cur = conn.cursor()
@@ -26,7 +28,7 @@ def insert(task_name, assigned_to, start_date, end_date):
     "task_name": "{task_name}",
     "assigned_to": "{assigned_to}",
     "start_date": "{start_date}",
-    "end_date": "{end_date}", 
+    "end_date": "{end_date}",
     "duration":  "{duration.days}"
     }}');''')
 
@@ -63,5 +65,4 @@ for assigned_to, event, start, end  in Data().get_data(n=1000):
 #cur.execute('''SELECT * from event where to_timestamp(data->>'start_date', 'DD.MM.YYYY') > to_timestamp('2019-06-01', 'YYYY-MM-DD')''')
 #print(cur.fetchall())
 print(query3(cur, datetime.date(day=5, month=7, year=2019)))
-
 
