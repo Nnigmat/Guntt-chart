@@ -20,15 +20,13 @@ cur.execute(f'''CREATE TABLE IF NOT EXISTS event (
 
 # date - dd.mm.yyyy
 def insert(task_name, assigned_to, start_date, end_date):
-    duration = end_date - start_date
-    if (duration < 0):
-        raise Exception('end_date should be after the start_date (idesh nahui)')
+    duration = datetime.datetime.strptime(end_date, "%d.%m.%Y") - datetime.datetime.strptime(start_date, "%d.%m.%Y")
 
     cur.execute(f'''INSERT INTO event (data) VALUES ('{{
     "task_name": "{task_name}",
     "assigned_to": "{assigned_to}",
-    "start_date": "{start_date.strftime("%d.%m.%Y")}",
-    "end_date": "{end_date.strftime("%d.%m.%Y")}", 
+    "start_date": "{start_date}",
+    "end_date": "{end_date}", 
     "duration":  "{duration.days}"
     }}');''')
 
@@ -67,7 +65,10 @@ def give_data():
     '''
     pass
 
-if __name__ == '__main__':
-    for assigned_to, event, start, end  in Data().get_data(n=100):
-        insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
+for assigned_to, event, start, end  in Data().get_data(n=100):
+    insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
+
+cur.execute('SELECT * from event;')
+print(cur.fetchall())
+
 
