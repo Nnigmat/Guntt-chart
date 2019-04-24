@@ -24,15 +24,35 @@ def query3(cur, date):
 
 # geospatial shiit
 def query4(cur, s_date, e_date, k):
-    s_date = s_date.strftime('%d.%m%Y')
-    e_date = e_date.strftime('%d.%m%Y')
+    #s_date = s_date.strftime('%d.%m.%Y')
+    #e_date = e_date.strftime('%d.%m.%Y')
     cur.execute(
         f'''SELECT * FROM event ORDER BY 
-        ((to_timestamp('{s_date}', 'DD.MM.YYYY') - to_timestamp((data->>'start_date'), 'DD.MM.YYYY')) * 
-        (to_timestamp('{s_date}', 'DD.MM.YYYY') - to_timestamp((data->>'start_date'), 'DD.MM.YYYY')) +
-        to_timestamp('{e_date}', 'DD.MM.YYYY') - to_timestamp((data->>'end_date'), 'DD.MM.YYYY') * 
-        to_timestamp('{e_date}', 'DD.MM.YYYY') - to_timestamp((data->>'end_date'), 'DD.MM.YYYY'))''')
+        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{s_date}') -
+        cast(extract(epoch from to_timestamp(data->>'start_date', 'DD.MM.YYYY')) as integer)) *
+        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{s_date}') -
+        cast(extract(epoch from to_timestamp(data->>'start_date', 'DD.MM.YYYY')) as integer)) +
+        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{e_date}') -
+        cast(extract(epoch from to_timestamp(data->>'end_date', 'DD.MM.YYYY')) as integer)) *
+        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{e_date}') -
+        cast(extract(epoch from to_timestamp(data->>'end_date', 'DD.MM.YYYY')) as integer))
+        ASC
+        LIMIT {k} 
+        ''')
     return cur.fetchall()
+
+# geospatial shiit
+def query5(cur, s_date, e_date, k):
+    #s_date = s_date.strftime('%d.%m.%Y')
+    #e_date = e_date.strftime('%d.%m.%Y')
+    cur.execute(
+        f'''SELECT * FROM event 
+        LIMIT 10
+        ''')
+    return cur.fetchone()
+
+
+
 
 
 # distance function
