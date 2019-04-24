@@ -53,13 +53,19 @@ def chart():
 
 @app.route('/data/', methods=['GET'])
 def give_data():
-    q = request.args.get('query')
-    print(q)
-    cur.execute(q)
-    d = cur.fetchall()
+    query = request.args.get('query')
+    cur.execute(query)
+    data = cur.fetchall()
+    res = []
+    for d in data:
+        d[0]['start_date'] = datetime.datetime.strptime(d[0]['start_date'], '%d.%m.%Y').strftime('%Y-%m-%d')
+        d[0]['end_date'] = datetime.datetime.strptime(d[0]['end_date'], '%d.%m.%Y').strftime('%Y-%m-%d')
+        res.append(d)
+
     data = {
-    'has':True,
-    'data':d}
+        'has':True,
+        'data':res
+    }
     return jsonify(data)
 
 
