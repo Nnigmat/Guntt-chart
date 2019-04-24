@@ -11,7 +11,7 @@ create_button.addEventListener('click', function(){
         dataType: 'json',
         success:function(data){
             if(data['has']){
-                console.log(data['data']);
+                console.log(data['data'][3][0]['task_name']);
             }
         },
         fail:function(){
@@ -45,33 +45,19 @@ for(var i = 0; i < 100; i++){
 var ctx = document.getElementById('myChart').getContext('2d');
 ctx.width = 400;
 ctx.height = 400;
-var scatterChart = new Chart(ctx, {
-type: 'line',
-data: {
-    datasets: ds
-},
-options: {
-    legend : {
-        display : false
-    },
-    scales: {
-        xAxes: [{
-            type: 'linear',
-            position: 'bottom',
-            ticks : {
-                beginAtzero :true,
-                stepSize : 1
-            }
-        }],
-        yAxes : [{
-            scaleLabel : {
-                display : true
-            },
-            ticks : {
-                beginAtZero :true,
-                max : 100
-            }
-        }]
-    }
-}
+
+$(".selector").gantt({
+	source: "ajax/data.json",
+	scale: "weeks",
+	minScale: "weeks",
+	maxScale: "months",
+	onItemClick: function(data) {
+		alert("Item clicked - show some details");
+	},
+	onAddClick: function(dt, rowId) {
+		alert("Empty space clicked - add an item!");
+	},
+	onRender: function() {
+		console.log("chart rendered");
+	}
 });

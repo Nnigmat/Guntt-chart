@@ -45,8 +45,6 @@ class Data:
         for i in range(n):
             date1 = random.randint(start_date, finish_date)
             date2 = date1+random.randint(10, delta)
-            if date1>date2:
-                date1, date2 = date2, date1
             date1st, date2st = dt.fromtimestamp(date1), dt.fromtimestamp(date2)
             create_date = lambda timestamp: "{0}.{1}.{2}".format(timestamp.day, timestamp.month, timestamp.year)
 
