@@ -69,5 +69,14 @@ for assigned_to, event, start, end  in Data().get_data(n=10):
 
 #cur.execute('''SELECT * from event where to_timestamp(data->>'start_date', 'DD.MM.YYYY') > to_timestamp('2019-06-01', 'YYYY-MM-DD')''')
 #print(cur.fetchall())
+cur.execute('''SELECT * from event''')
+record = cur.fetchone()[0]['start_date'].split('.')
+'''
+print(record)
+r1, r2 = list(map(int, record['start_date'].split('.'))), list(map(int, record['end_date'].split('.')))
+print(query5(cur, datetime.date(day=r1[0], month=r1[1], year=r1[2]), datetime.date(day=r2[0], month=r2[1], year=r2[2])))
+'''
+print(query1(cur, datetime.datetime(day=int(record[0]), month=int(record[1]), year=int(record[2]))))
+
 #print(query4(cur, datetime.date(day=5, month=7, year=2019), datetime.date(day=5, month=7, year=2019), k=3))
 #print(query5(cur, datetime.date(day=5, month=7, year=2019), datetime.date(day=5, month=7, year=2019), k=3))

@@ -43,11 +43,8 @@ def query4(cur, s_date, e_date, k):
 
 # aggregate function with count
 def query5(cur, s_date, e_date):
-    cur.execute(f'''SELECT COUNT(*) FROM event WHERE (data->>'start_date') = '{s_date}' AND (data->>'end_date') = '{e_date}' ''')
+    cur.execute(f'''SELECT COUNT(*) FROM event WHERE (data->>'start_date') = '{s_date.strftime("%Y-%m-%d")}' AND (data->>'end_date') = '{e_date.strftime("%Y-%m-%d")}' ''')
     return cur.fetchall()
-    return cur.fetchone()
-
-
 
 
 
