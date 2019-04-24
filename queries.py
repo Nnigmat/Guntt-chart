@@ -24,7 +24,7 @@ def query3(cur, date):
 
 
 
-
+# distance function
 def distance(start_date1, end_date1, start_date2, end_date2):
     x = start_date1 - start_date2
     x = abs(x.total_second())
