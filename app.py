@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request
 from forms import EventForm
 import psycopg2
 app = Flask(__name__)
@@ -14,17 +14,19 @@ print(cur.fetchone())
 @app.route('/', methods=['GET', 'POST'])
 def submit():
     form = EventForm()
-    if form.validate_on_submit():
+    if request.method == 'GET':
+        return render_template('submit.html', form=form)
+    else:
+        if form.validate_on_submit():
 
-        '''
-        ' Here you need to store data to the database.
-        ' Get value from field - form.name_of_field.data.
-        '
-        ' You can find name of fields in forms.py.
-        '''
-        
+            '''
+            ' Here you need to store data to the database.
+            ' Get value from field - form.name_of_field.data.
+            '
+            ' You can find name of fields in forms.py.
+            '''
+            print(form.start.gettext())
         return redirect('../')
-    return render_template('submit.html', form=form)
 
 @app.route('/chart', methods=['GET'])
 def chart():
