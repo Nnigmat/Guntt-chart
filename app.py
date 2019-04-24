@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, request
 from forms import EventForm
+from create_data import Data
 import psycopg2
 import datetime
 
@@ -8,13 +9,14 @@ app.config['SECRET_KEY'] = 'any string works here'
 conn = psycopg2.connect(dbname='testdb', user='postgres', password='postgres', host='localhost')
 cur = conn.cursor()
 
-cur.execute((f'''CREATE TABLE event (
+#cur.execute('DROP TABLE IF EXISTS event;')
+cur.execute(f'''CREATE TABLE IF NOT EXISTS event (
     data JSON,
-    CONSTRAINT validate_task_name CHECK (lentgh(data->>'task_name') > 0 AND (data->>'task_name') IS NOT NULL),
-    CONSTRAINT validate_assigned_to CHECK (lentgh(data->>'assigned_to') > 0 AND (data->>'assigned_to') IS NOT NULL),
-    CONSTRAINT validate_start_date CHECK (lentgh(data->>'start_date') > 0 AND (data->>'start_date') IS NOT NULL),
-    CONSTRAINT validate_start_date CHECK (lentgh(data->>'end_date') > 0 AND (data->>'end_date') IS NOT NULL),
-);'''));
+    CONSTRAINT validate_task_name CHECK (length(data->>'task_name') > 0 AND (data->>'task_name') IS NOT NULL),
+    CONSTRAINT validate_assigned_to CHECK (length(data->>'assigned_to') > 0 AND (data->>'assigned_to') IS NOT NULL),
+    CONSTRAINT validate_start_date CHECK (length(data->>'start_date') > 0 AND (data->>'start_date') IS NOT NULL),
+    CONSTRAINT validate_end_date CHECK (length(data->>'end_date') > 0 AND (data->>'end_date') IS NOT NULL));''');
+
 
 # date - dd.mm.yyyy
 def insert(task_name, assigned_to, start_date, end_date):
@@ -64,3 +66,8 @@ def give_data():
     ' https://stackoverflow.com/questions/41259441/how-to-draw-gantt-chart-using-chart-js-or-other-libraries
     '''
     pass
+
+if __name__ == '__main__':
+    for assigned_to, event, start, end  in Data().get_data(n=100):
+        insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
+
