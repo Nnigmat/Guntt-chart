@@ -54,7 +54,7 @@ def chart():
 @app.route('/data/', methods=['GET'])
 def give_data():
     query = request.args.get('query')
-    cur.execute("select * from event order by data->>'start_date' limit 10")
+    cur.execute("select * from event order by data->>'start_date' ASC limit 10")
     data = cur.fetchall()
     res = []
     for d in data:
