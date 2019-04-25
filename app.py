@@ -41,7 +41,9 @@ def submit():
         return render_template('submit.html', form=form)
     else:
         if form.validate_on_submit():
-            insert(form.event.data, form.assigned_to.data, form.start.data.strftime('%d.%m.%Y'), form.end.data.strfitime('%d.%m.%Y'))
+            start = datetime.datetime(form.start.data.year, form.start.data.month, form.start.data.day).strftime('%d.%m.%Y')
+            end = datetime.datetime(form.end.data.year, form.end.data.month, form.end.data.day).strftime('%d.%m.%Y')
+            insert(form.event.data, form.assigned_to.data, start, end)
         return redirect('../')
 
 @app.route('/chart', methods=['GET'])
