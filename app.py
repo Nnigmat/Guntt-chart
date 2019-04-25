@@ -54,8 +54,8 @@ def chart():
 @app.route('/data/', methods=['GET'])
 def give_data():
     query = request.args.get('query')
-    cur.execute("select * from event order by data->>'start_date' ASC limit 10")
-    data = cur.fetchall()
+    #cur.execute("select * from event order by data->>'start_date' ASC limit 100")
+    data = query2(cur)
     res = []
     for d in data:
         d[0]['start_date'] = datetime.datetime.strptime(d[0]['start_date'], '%d.%m.%Y').strftime('%Y-%m-%d')
@@ -70,7 +70,7 @@ def give_data():
 
 
 # Generate initial data
-for assigned_to, event, start, end  in Data().get_data(n=100):
+for assigned_to, event, start, end  in Data().get_data(n=1000):
     insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
 
 
