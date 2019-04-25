@@ -41,4 +41,4 @@ This project was done by four students from Innopolis University:
 * Enes Ayan – B17-07
 * Salavat Dinmukhametov – B17-07
 * Almir Mullanurov – B17-06
-* Nikita Nigmatulling – B17-06
+* Nikita Nigmatulling – B17-07
