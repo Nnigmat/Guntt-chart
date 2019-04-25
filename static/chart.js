@@ -5,7 +5,7 @@ create_button.addEventListener('click', function(){
         url: 'data/',
         method: 'GET',
         data:{
-            'query': 'select * from event order by start_date limit 100'
+            'query': "select * from event order by data->>'start_date' limit 10"
         },
         dataType: 'json',
         success:function(data){

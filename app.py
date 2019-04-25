@@ -54,7 +54,7 @@ def chart():
 @app.route('/data/', methods=['GET'])
 def give_data():
     query = request.args.get('query')
-    cur.execute(query)
+    cur.execute("select * from event order by data->>'start_date' limit 10")
     data = cur.fetchall()
     res = []
     for d in data:
@@ -73,8 +73,6 @@ def give_data():
 for assigned_to, event, start, end  in Data().get_data(n=100):
     insert(task_name=event, assigned_to=assigned_to, start_date=start, end_date=end)
 
-#cur.execute('''SELECT * from event where to_timestamp(data->>'start_date', 'DD.MM.YYYY') > to_timestamp('2019-06-01', 'YYYY-MM-DD')''')
-#print(cur.fetchall())
 
 '''
 ' Query 1
