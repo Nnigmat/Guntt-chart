@@ -9,7 +9,7 @@ def query1(cur, date):
 
 # Select all events and sort them
 def query2(cur):
-    cur.execute(f'''SELECT * FROM event ORDER BY (data->>'start_date')''')
+    cur.execute(f'''SELECT * FROM event ORDER BY cast(extract(epoch from to_timestamp(data->>'start_date', 'DD.MM.YYYY')) as integer)''')
     return cur.fetchall()
 
 
