@@ -64,8 +64,10 @@ def query6(cur, s_date, e_date, k):
 
 # distance function
 def distance(start_date1, end_date1, start_date2, end_date2):
+    duration1 = (start_date1 - end_date1).total_seconds()
+    duration2 = (start_date2 - end_date2).total_seconds()
     x = start_date1 - start_date2
     x = abs(x.total_second())
-    y = end_date1 - end_date2
-    y = abs(y.total_second())
+    y = duration2 - duration1
+    y = abs(y)
     return x * x + y * y
