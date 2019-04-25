@@ -3,11 +3,16 @@
 Here you may see the installation process of the application:
 
 1. Download this repository to your local computer.
+
+   ``` git clone https://github.com/Nnigmat/Guntt-chart ```
+
 2. Run the following command in your terminal 
 
    ```pip3 install -r requirements```.
 
-3.todo: other steps
+3. Install postgresql
+4. Create user 'postgres' with password 'postgres'
+5. Create 'testdb' database
 
 ## Run project
 After the installation, you need to perform the following commands to run the project:
