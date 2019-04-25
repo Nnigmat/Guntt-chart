@@ -22,10 +22,9 @@ def query3(cur, date):
     return cur.fetchall()
 
 
-# geospatial shiit, where the distance is the manhattan distance between points with coordinates {start_date, end_date}
+# geospatial search, where the distance function is the Manhattan distance between points with coordinates {start_date, end_date}
+# returns the k closest events to the needed one
 def query4(cur, s_date, e_date, k):
-    #s_date = s_date.strftime('%d.%m.%Y')
-    #e_date = e_date.strftime('%d.%m.%Y')
     cur.execute(
         f'''SELECT * FROM event ORDER BY 
         (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{s_date}') -
