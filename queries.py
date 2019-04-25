@@ -7,7 +7,7 @@ def query1(cur, date):
     return cur.fetchall()
 
 
-# Select all event and sort them
+# Select all events and sort them
 def query2(cur):
     cur.execute(f'''SELECT * FROM event ORDER BY (data->>'start_date')''')
     return cur.fetchall()
@@ -45,6 +45,23 @@ def query5(cur, s_date, e_date):
     cur.execute(f'''SELECT COUNT(*) FROM event WHERE (data->>'start_date') = '{s_date}' AND (data->>'end_date') = '{e_date}' ''')
     return cur.fetchall()
 
+# geospatial search, where the distance function is the Manhattan distance between points with coordinates {start_date, duration}
+# returns the k closest events to the needed one
+def query6(cur, s_date, duration, k):
+    cur.execute(
+        f'''SELECT * FROM event ORDER BY 
+        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{s_date}') -
+        cast(extract(epoch from to_timestamp(data->>'start_date', 'DD.MM.YYYY')) as integer)) *
+        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{s_date}') -
+        cast(extract(epoch from to_timestamp(data->>'start_date', 'DD.MM.YYYY')) as integer)) +
+        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{duration}') -
+        cast(extract(epoch from to_timestamp(data->>'duration', 'DD.MM.YYYY')) as integer)) *
+        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{duration}') -
+        cast(extract(epoch from to_timestamp(data->>'duration', 'DD.MM.YYYY')) as integer))
+        ASC
+        LIMIT {k} 
+        ''')
+    return cur.fetchall()
 
 
 # distance function

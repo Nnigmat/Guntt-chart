@@ -30,7 +30,7 @@ def insert(task_name, assigned_to, start_date, end_date):
     "assigned_to": "{assigned_to}",
     "start_date": "{start_date}",
     "end_date": "{end_date}",
-    "duration":  "{duration.days}"
+    "duration":  "{duration}"
     }}');''')
 
 
