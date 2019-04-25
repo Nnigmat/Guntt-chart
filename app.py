@@ -23,7 +23,7 @@ cur.execute(f'''CREATE TABLE IF NOT EXISTS event (
 
 # date - dd.mm.yyyy
 def insert(task_name, assigned_to, start_date, end_date):
-    duration = datetime.datetime.strptime(end_date, "%d.%m.%Y") - datetime.datetime.strptime(start_date, "%d.%m.%Y")
+    duration = (datetime.datetime.strptime(end_date, "%d.%m.%Y") - datetime.datetime.strptime(start_date, "%d.%m.%Y")).total_seconds()
 
     cur.execute(f'''INSERT INTO event (data) VALUES ('{{
     "task_name": "{task_name}",
@@ -98,6 +98,7 @@ print(query3(cur, datetime.date(day=5, month=7, year=2019)))
 print(query4(cur, datetime.date(day=5, month=7, year=2019), datetime.date(day=5, month=7, year=2019), k=3))
 '''
 
+print(query6(cur, datetime.date(day=4, month=7, year=2019), datetime.date(day=5, month=7, year=2019), k=3))
 '''
 ' Query 5
 cur.execute('SELECT * from event')
@@ -108,4 +109,4 @@ print(query5(cur, '20.11.2019', '30.11.2019'))
 print(query5(cur, '7.5.2019', '21.5.2019'))
 print(query5(cur, '20.10.2019', '1.11.2019'))
 print(query5(cur, '28.3.2019', '5.4.2019'))
-'''
+''' 

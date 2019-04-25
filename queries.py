@@ -48,17 +48,14 @@ def query5(cur, s_date, e_date):
 # geospatial search, where the distance function is the Manhattan distance between points with coordinates {start_date, duration}
 # returns the k closest events to the needed one
 def query6(cur, s_date, e_date, k):
-    duration = datetime.datetime.strptime(e_date, "%d.%m.%Y") - datetime.datetime.strptime(s_date, "%d.%m.%Y")
+    duration = (e_date - s_date).total_seconds()
     cur.execute(
         f'''SELECT * FROM event ORDER BY 
         (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{s_date}') -
         cast(extract(epoch from to_timestamp(data->>'start_date', 'DD.MM.YYYY')) as integer)) *
         (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{s_date}') -
         cast(extract(epoch from to_timestamp(data->>'start_date', 'DD.MM.YYYY')) as integer)) +
-        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{duration}') -
-        cast(extract(epoch from to_timestamp(data->>'duration', 'DD.MM.YYYY')) as integer)) *
-        (EXTRACT(EPOCH FROM TIMESTAMP WITH TIME ZONE '{duration}') -
-        cast(extract(epoch from to_timestamp(data->>'duration', 'DD.MM.YYYY')) as integer))
+        ({duration} - (data->>'duration')::float) * ({duration} - (data->>'duration')::float)
         ASC
         LIMIT {k} 
         ''')
