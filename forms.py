@@ -10,11 +10,9 @@ class EventForm(FlaskForm):
     end = DateField('ending date', format='%d.%m.%Y', validators=[DataRequired()])
 
     def validate_on_submit(self):
-        print('Start validation')
         result = super(EventForm, self).validate()
+
         if (self.start.data > self.end.data):
-            print('Start bigger then end')
             return False
         else:
-            print(result)
             return result
